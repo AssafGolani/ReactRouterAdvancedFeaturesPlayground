@@ -6,7 +6,7 @@ function NewEventPage() {
 }
 export default NewEventPage;
 export async function action({ request }) {
-  const data = request.formData();
+  const data = await request.formData();
   const eventData = {
     title: data.get("title"),
     description: data.get("description"),
@@ -14,7 +14,7 @@ export async function action({ request }) {
     image: data.get("image"),
   };
 
-  const response = await fetch("http://localhost:3000/api/events", {
+  const response = await fetch("http://localhost:8080/events", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
