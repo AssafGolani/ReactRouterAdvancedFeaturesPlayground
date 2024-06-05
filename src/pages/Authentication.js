@@ -8,18 +8,20 @@ function AuthenticationPage() {
 export default AuthenticationPage;
 
 export async function action({ request }) {
-  const data = await request.formData();
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get("mode") || "login";
-  if (mode === "login" || mode === "signup") {
+
+  if (mode !== "login" && mode !== "signup") {
     throw json({ message: "Invalid mode" }, { status: 422 });
   }
+
+  const data = await request.formData();
   const authData = {
     email: data.get("email"),
     password: data.get("password"),
   };
 
-  const response = fetch("http://localhost:8080/" + mode, {
+  const response = await fetch("http://localhost:8080/" + mode, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
